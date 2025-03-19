@@ -8,8 +8,11 @@ import Footer from '@/components/Footer';
 import DigitalRain from '@/components/DigitalRain';
 
 const Index = () => {
+  console.log("Index component rendering");
+  
   // Add scan line effect to body
   useEffect(() => {
+    console.log("Creating scan line effect");
     const scanLine = document.createElement('div');
     scanLine.className = 'scan-line';
     document.body.appendChild(scanLine);
@@ -20,16 +23,18 @@ const Index = () => {
   }, []);
   
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative overflow-x-hidden w-full">
       {/* Digital Rain Matrix Effect */}
       <DigitalRain />
       
       {/* Main Content */}
-      <Navbar />
-      <Hero />
-      <EventDetails />
-      <Registration />
-      <Footer />
+      <div className="relative z-10 w-full">
+        <Navbar />
+        <Hero />
+        <EventDetails />
+        <Registration />
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -19,6 +19,8 @@ const GlitchText: React.FC<GlitchTextProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(!delay);
   const [isGlitching, setIsGlitching] = useState(false);
+  
+  console.log("GlitchText rendering:", text);
 
   useEffect(() => {
     if (delay) {
