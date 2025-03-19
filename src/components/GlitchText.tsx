@@ -8,6 +8,7 @@ interface GlitchTextProps {
   className?: string;
   glitchOnHover?: boolean;
   delay?: number;
+  intensity?: 'low' | 'medium' | 'high';
 }
 
 const GlitchText: React.FC<GlitchTextProps> = ({ 
@@ -15,13 +16,12 @@ const GlitchText: React.FC<GlitchTextProps> = ({
   as: Component = 'span', 
   className, 
   glitchOnHover = false,
-  delay = 0
+  delay = 0,
+  intensity = 'medium'
 }) => {
   const [isVisible, setIsVisible] = useState(!delay);
   const [isGlitching, setIsGlitching] = useState(false);
   
-  console.log("GlitchText rendering:", text);
-
   useEffect(() => {
     if (delay) {
       const timer = setTimeout(() => {
@@ -30,6 +30,21 @@ const GlitchText: React.FC<GlitchTextProps> = ({
       return () => clearTimeout(timer);
     }
   }, [delay]);
+
+  // Random glitch effect on component mount
+  useEffect(() => {
+    if (!glitchOnHover) {
+      const glitchInterval = setInterval(() => {
+        setIsGlitching(true);
+        
+        setTimeout(() => {
+          setIsGlitching(false);
+        }, 300);
+      }, Math.random() * 5000 + 2000); // Random interval between 2-7 seconds
+      
+      return () => clearInterval(glitchInterval);
+    }
+  }, [glitchOnHover]);
 
   const handleMouseEnter = () => {
     if (glitchOnHover) {
@@ -45,12 +60,17 @@ const GlitchText: React.FC<GlitchTextProps> = ({
 
   if (!isVisible) return null;
 
+  const intensityClass = 
+    intensity === 'low' ? 'glitch-low' : 
+    intensity === 'high' ? 'glitch-high' : 
+    'glitch-medium';
+
   return (
     <Component
       data-text={text}
       className={cn(
-        'cyber-glitch transition-all',
-        isGlitching || !glitchOnHover ? 'cyber-glitch' : '',
+        'cyber-glitch',
+        isGlitching || !glitchOnHover ? intensityClass : '',
         className
       )}
       onMouseEnter={handleMouseEnter}

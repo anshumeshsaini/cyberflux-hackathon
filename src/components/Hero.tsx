@@ -60,18 +60,21 @@ const Hero: React.FC = () => {
               as="span" 
               className="text-cyber-cyan inline-block" 
               delay={1000}
+              intensity="high"
             />
             <GlitchText 
               text="_X" 
               as="span" 
               className="text-cyber-pink inline-block" 
               delay={1500}
+              intensity="high"
             />
             <GlitchText 
               text=" 2025" 
               as="span" 
               className="text-white inline-block" 
               delay={1800}
+              intensity="medium"
             />
           </h1>
 
@@ -87,7 +90,7 @@ const Hero: React.FC = () => {
           
           {/* CTA Button */}
           {showCTA && (
-            <div className="mt-10 transition-all duration-500 animate-fade-in">
+            <div className="mt-10 transition-all duration-500 animate-pulse-glow">
               <a 
                 href="#event" 
                 className="cyber-button mx-2 text-lg font-mono animate-pulse-glow"
