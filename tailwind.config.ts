@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,12 +19,26 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				mono: ['JetBrains Mono', 'monospace'],
+				cyber: ['Orbitron', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				cyber: {
+					black: '#050505',
+					darker: '#0A0A0A',
+					dark: '#121212',
+					cyan: '#0AFFFF',
+					green: '#0AFF0A',
+					pink: '#FF10F0',
+					blue: '#0A50FF',
+					purple: '#6E0AFF',
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -84,12 +99,65 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				'digital-rain': {
+					'0%': { transform: 'translateY(-100%)', opacity: '0' },
+					'10%': { opacity: '1' },
+					'100%': { transform: 'translateY(100vh)', opacity: '0.5' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 10px theme(colors.cyber.cyan), 0 0 20px theme(colors.cyber.cyan)',
+						opacity: '1' 
+					},
+					'50%': { 
+						boxShadow: '0 0 15px theme(colors.cyber.cyan), 0 0 30px theme(colors.cyber.cyan)',
+						opacity: '0.8' 
+					}
+				},
+				'glitch': {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'20%, 60%': { transform: 'translateX(-2px)' },
+					'40%, 80%': { transform: 'translateX(2px)' }
+				},
+				'scan-line': {
+					'0%': { transform: 'translateY(0%)', opacity: '0' },
+					'50%': { opacity: '0.5' },
+					'100%': { transform: 'translateY(100%)', opacity: '0' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'typing': {
+					'0%': { width: '0%' },
+					'100%': { width: '100%' }
+				},
+				'blink-caret': {
+					'0%, 100%': { borderColor: 'transparent' },
+					'50%': { borderColor: 'theme(colors.cyber.cyan)' }
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'digital-rain': 'digital-rain 5s linear infinite',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+				'glitch': 'glitch 0.3s ease-in-out infinite',
+				'scan-line': 'scan-line 2s linear infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'typing': 'typing 3.5s steps(40, end)',
+				'blink-caret': 'blink-caret 0.75s step-end infinite',
+			},
+			backdropFilter: {
+				'none': 'none',
+				'blur': 'blur(20px)',
+			},
+			boxShadow: {
+				'neon-cyan': '0 0 5px theme(colors.cyber.cyan), 0 0 20px theme(colors.cyber.cyan)',
+				'neon-green': '0 0 5px theme(colors.cyber.green), 0 0 20px theme(colors.cyber.green)',
+				'neon-pink': '0 0 5px theme(colors.cyber.pink), 0 0 20px theme(colors.cyber.pink)',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
