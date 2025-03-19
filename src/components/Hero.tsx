@@ -60,21 +60,18 @@ const Hero: React.FC = () => {
               as="span" 
               className="text-cyber-cyan inline-block" 
               delay={1000}
-              intensity="medium"
             />
             <GlitchText 
               text="_X" 
               as="span" 
               className="text-cyber-pink inline-block" 
               delay={1500}
-              intensity="high"
             />
             <GlitchText 
               text=" 2025" 
               as="span" 
               className="text-white inline-block" 
               delay={1800}
-              intensity="low"
             />
           </h1>
 
@@ -95,13 +92,13 @@ const Hero: React.FC = () => {
                 href="#event" 
                 className="cyber-button mx-2 text-lg font-mono animate-pulse-glow"
               >
-                <GlitchText text="ENTER THE GRID" glitchOnHover intensity="low" />
+                ENTER THE GRID
               </a>
               <a 
                 href="#register" 
                 className="cyber-button mx-2 text-lg font-mono bg-cyber-cyan/10"
               >
-                <GlitchText text="JOIN THE BREACH" glitchOnHover intensity="low" />
+                JOIN THE BREACH
               </a>
             </div>
           )}
