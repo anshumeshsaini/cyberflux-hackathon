@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -111,8 +112,9 @@
   
   .scan-line-container::before {
     @apply content-[''] absolute left-0 top-0 w-full h-full pointer-events-none
-           bg-gradient-to-b from-transparent via-cyber-cyan/5 to-transparent
-           bg-size-[100%_3px] bg-repeat-y animate-scan;
+           bg-gradient-to-b from-transparent via-cyber-cyan/5 to-transparent;
+    background-size: 100% 3px;
+    background-repeat: repeat-y;
     background-position: 0 -100%;
     animation: scan 3s linear infinite;
   }
