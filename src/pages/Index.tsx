@@ -4,7 +4,6 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import EventDetails from '@/components/EventDetails';
 import Registration from '@/components/Registration';
-import Footer from '@/components/Footer';
 import DigitalRain from '@/components/DigitalRain';
 
 const Index = () => {
@@ -25,15 +24,13 @@ const Index = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden w-full">
       {/* Digital Rain Matrix Effect */}
-      <DigitalRain />
-      
+
       {/* Main Content */}
       <div className="relative z-10 w-full">
         <Navbar />
         <Hero />
         <EventDetails />
         <Registration />
-        <Footer />
       </div>
     </div>
   );

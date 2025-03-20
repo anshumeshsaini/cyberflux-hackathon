@@ -1,0 +1,58 @@
+.logo-container {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+/* Main Logo */
+.shining-logo {
+    width: 250px;
+    height: auto;
+    border-radius: 15px;
+    position: relative;
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out, filter 0.5s ease-in-out;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    filter: brightness(1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+/* On Hover: Scale, Rotate & Glow */
+.shining-logo:hover {
+    transform: scale(1.2) rotateY(15deg) rotateX(5deg);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    filter: brightness(1.3);
+}
+
+/* 🔥 Fire Effect on Click */
+.shining-logo:active {
+    filter: brightness(2) saturate(2);
+    animation: fireGlow 0.3s infinite alternate, shake 0.2s infinite;
+}
+
+/* Fire Glow Effect */
+@keyframes fireGlow {
+    0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.6); }
+    50% { box-shadow: 0 0 35px rgba(255, 69, 0, 0.9); }
+    100% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.6); }
+}
+
+/* 🔥 Small Shaking Effect */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px) rotate(-2deg); }
+    50% { transform: translateX(2px) rotate(2deg); }
+    75% { transform: translateX(-2px) rotate(-2deg); }
+    100% { transform: translateX(0); }
+}
+
+/* Fire Flicker Effect (Optional) */
+@keyframes fireFlicker {
+    0% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.5) saturate(1.5); }
+    100% { filter: brightness(1) saturate(1); }
+}
+
+.shining-logo:active {
+    animation: fireGlow 0.3s infinite alternate, shake 0.2s infinite, fireFlicker 0.1s infinite alternate;
+}

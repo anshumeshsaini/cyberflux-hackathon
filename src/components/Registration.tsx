@@ -1,253 +1,111 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import HolographicCard from './HolographicCard';
 import GlitchText from './GlitchText';
 import TerminalText from './TerminalText';
-import { Loader, Check, AlertCircle } from 'lucide-react';
-
-const TerminalOutput: React.FC<{ messages: { text: string; type: 'input' | 'output' | 'success' | 'error' }[] }> = ({ messages }) => {
-  const messagesEndRef = React.useRef<HTMLDivElement>(null);
-
-  // Auto-scroll to bottom when messages change
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
-
-  return (
-    <div className="font-mono text-sm h-[150px] overflow-y-auto bg-cyber-darker/70 p-4 rounded-md text-left">
-      {messages.map((msg, index) => (
-        <div key={index} className="mb-1">
-          {msg.type === 'input' && (
-            <div>
-              <span className="text-cyber-cyan">root@intrusion-x $</span> 
-              <span className="text-white ml-2">{msg.text}</span>
-            </div>
-          )}
-          {msg.type === 'output' && (
-            <div className="text-white/70">{msg.text}</div>
-          )}
-          {msg.type === 'success' && (
-            <div className="text-cyber-green flex items-center">
-              <Check size={14} className="mr-1" /> {msg.text}
-            </div>
-          )}
-          {msg.type === 'error' && (
-            <div className="text-cyber-pink flex items-center">
-              <AlertCircle size={14} className="mr-1" /> {msg.text}
-            </div>
-          )}
-        </div>
-      ))}
-      <div ref={messagesEndRef} />
-    </div>
-  );
-};
+import { motion } from 'framer-motion';
 
 const Registration: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [team, setTeam] = useState('');
-  const [hackerName, setHackerName] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [terminalMessages, setTerminalMessages] = useState<{ text: string; type: 'input' | 'output' | 'success' | 'error' }[]>([
-    { text: 'system -v', type: 'input' },
-    { text: 'IntrusionX Terminal v2.5.0 // ACTIVE', type: 'output' },
-    { text: 'Awaiting identity verification...', type: 'output' },
-  ]);
-
-  // Generate random hacker names
-  const generateHackerName = () => {
-    const prefixes = ['Ghost', 'Cipher', 'Vortex', 'Shadow', 'Neon', 'Quantum', 'Binary', 'Crypto', 'Zero', 'Null', 'Pixel'];
-    const suffixes = ['Byte', 'Wire', 'Script', 'Pulse', 'Node', 'Flux', 'Hawk', 'Runner', 'Hunter', 'Reaper', 'Forge'];
-    
-    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    const randomNum = Math.floor(Math.random() * 100);
-    
-    return `${randomPrefix}${randomSuffix}${randomNum}`;
-  };
-
-  const handleGenerateHackerName = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const newName = generateHackerName();
-    setHackerName(newName);
-    
-    setTerminalMessages(prev => [
-      ...prev, 
-      { text: 'generate -hacker-alias', type: 'input' },
-      { text: `Generated alias: ${newName}`, type: 'success' }
-    ]);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!name || !email) {
-      setTerminalMessages(prev => [
-        ...prev,
-        { text: 'submit -form --registration', type: 'input' },
-        { text: 'ERROR: Required identity parameters missing', type: 'error' }
-      ]);
-      return;
-    }
-    
-    setLoading(true);
-    
-    // Simulate form submission
-    setTerminalMessages(prev => [
-      ...prev,
-      { text: 'submit -form --registration', type: 'input' },
-      { text: 'Processing registration data...', type: 'output' }
-    ]);
-    
-    // Simulate network delay
-    setTimeout(() => {
-      setTerminalMessages(prev => [
-        ...prev,
-        { text: 'Verifying identity...', type: 'output' },
-        { text: 'Identity verified', type: 'success' },
-        { text: 'Registration complete', type: 'success' },
-        { text: `Welcome to IntrusionX 2025, ${hackerName || name}`, type: 'output' },
-        { text: 'Further instructions will be sent to your secure channel', type: 'output' }
-      ]);
-      
-      setLoading(false);
-      setSubmitted(true);
-    }, 2000);
-  };
+  const [showIframe, setShowIframe] = useState(false);
 
   return (
-    <section id="register" className="py-24 px-4 relative z-10">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <GlitchText 
-            text="REGISTRATION" 
-            as="h2" 
-            className="text-4xl md:text-5xl font-cyber text-cyber-green mb-4" 
-          />
-          <p className="text-white/70 font-mono max-w-2xl mx-auto">
-            Establish secure connection. Register your identity for access to the grid.
-          </p>
+      <section id="why-join" className="py-24 px-4 relative z-10">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <GlitchText
+                text="WHY  INTRUSION X?"
+                as="h2"
+                className="text-4xl md:text-5xl font-cyber text-cyber-green mb-4"
+            />
+            <p className="text-white/70 font-mono max-w-2xl mx-auto">
+              Unlock your full potential. Experience the thrill of cybersecurity, innovation, and hacking challenges like never before.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <HolographicCard className="p-6 md:p-8" glowColor="cyber-green">
+              <div className="mb-6">
+                <TerminalText
+                    text=">
+
+Join IntrusionX – Where the Best Minds in Cybersecurity Compete!"
+                    className="text-cyber-green text-sm"
+                />
+              </div>
+
+              <ul className="text-white/70 font-mono space-y-4">
+                <li><span className="text-cyber-cyan">> Hands-on Experience – Solve live cybersecurity challenges.</span> </li>
+                <li><span className="text-cyber-cyan">> For All Skill Levels – Open to beginners & experts.</span> </li>
+                <li><span className="text-cyber-cyan">> Exciting Prizes & Recognition – Win certificates, cash prizes & career opportunities.</span> </li>
+                <li><span className="text-cyber-cyan">> Expert Workshops – Learn from top cybersecurity professionals. </span> </li>
+                <li><span className="text-cyber-cyan">> Networking & Growth – Connect with industry leaders & like-minded peers. </span>
+                </li>
+              </ul>
+
+              <div className="mt-8 text-center">
+                <button
+                    className="cyber-button relative font-mono px-12 py-4 text-lg font-bold"
+                    onClick={() => setShowIframe(true)}
+                >
+                  What to Expect at IntrusionX
+                </button>
+              </div>
+            </HolographicCard>
+          </div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <HolographicCard 
-            className="p-6 md:p-8" 
-            glowColor="cyber-green"
-          >
-            <div className="mb-6">
-              <TerminalText 
-                text="> Secure registration terminal. All communications encrypted." 
-                className="text-cyber-green text-sm"
-              />
-            </div>
-            
-            {!submitted ? (
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-white/70 text-sm font-mono mb-2">
-                      IDENTITY NAME
-                    </label>
-                    <input 
-                      type="text" 
-                      className="w-full bg-cyber-darker/50 border border-cyber-green/30 focus:border-cyber-green text-white font-mono p-3 rounded-md outline-none transition"
-                      placeholder="Your real name"
-                      value={name}
-                      onChange={e => setName(e.target.value)}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-white/70 text-sm font-mono mb-2">
-                      SECURE CHANNEL (EMAIL)
-                    </label>
-                    <input 
-                      type="email" 
-                      className="w-full bg-cyber-darker/50 border border-cyber-green/30 focus:border-cyber-green text-white font-mono p-3 rounded-md outline-none transition"
-                      placeholder="your@email.com"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-white/70 text-sm font-mono mb-2">
-                      TEAM DESIGNATION (OPTIONAL)
-                    </label>
-                    <input 
-                      type="text" 
-                      className="w-full bg-cyber-darker/50 border border-cyber-green/30 focus:border-cyber-green text-white font-mono p-3 rounded-md outline-none transition"
-                      placeholder="Your team name"
-                      value={team}
-                      onChange={e => setTeam(e.target.value)}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-white/70 text-sm font-mono mb-2">
-                      HACKER ALIAS
-                    </label>
-                    <div className="flex">
-                      <input 
-                        type="text" 
-                        className="flex-1 bg-cyber-darker/50 border border-cyber-green/30 focus:border-cyber-green text-white font-mono p-3 rounded-l-md outline-none transition"
-                        placeholder="Your hacker name"
-                        value={hackerName}
-                        onChange={e => setHackerName(e.target.value)}
-                      />
-                      <button 
-                        onClick={handleGenerateHackerName}
-                        className="bg-cyber-green/20 hover:bg-cyber-green/30 border border-cyber-green/30 text-cyber-green px-3 rounded-r-md transition"
-                      >
-                        Generate
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-6">
-                  <TerminalOutput messages={terminalMessages} />
-                </div>
-                
-                <div className="mt-8 text-center">
-                  <button 
-                    type="submit"
-                    disabled={loading}
-                    className={`cyber-button relative font-mono px-12 py-4 text-lg font-bold ${
-                      loading ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    {loading ? (
-                      <span className="flex items-center">
-                        <Loader className="animate-spin mr-2" size={18} />
-                        PROCESSING...
-                      </span>
-                    ) : 'INITIALIZE CONNECTION'}
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="py-8 text-center">
-                <Check size={64} className="text-cyber-green mx-auto mb-6" />
-                <h3 className="text-2xl font-cyber text-cyber-green mb-4">
-                  Registration Complete
-                </h3>
-                <p className="text-white/70 font-mono max-w-lg mx-auto mb-6">
-                  Your connection has been established. We've sent a confirmation to your secure channel.
-                </p>
-                <div className="mt-6">
-                  <TerminalOutput messages={terminalMessages} />
-                </div>
+        {showIframe && (
+            <motion.div
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/80 backdrop-blur-md z-50"
+            >
+              <div className="relative bg-gray-900 p-6 rounded-lg shadow-xl border border-cyber-green w-11/12 max-w-4xl">
+                <button
+                    onClick={() => setShowIframe(false)}
+                    className="absolute top-2 right-3 text-cyber-red font-bold text-xl"
+                >
+                  ✖
+                </button>
+                <iframe
+                    srcDoc={`
+                <html>
+                  <head>
+                    <style>
+                      body { font-family: 'Courier New', monospace; background: black; color: #00ff00; padding: 20px; }
+                      h2 { text-align: center; text-decoration: underline; }
+                      p, li { margin: 10px 0; line-height: 1.5; }
+                    </style>
+                  </head>
+                  <body>
+                    <h2>What to Expect at IntrusionX Workshops & Learning Sessions</h2>
+                    <ul>
+                      <li>Participate in interactive sessions led by industry leaders.</li>
+                      <li>Get hands-on experience with the latest cybersecurity tools and techniques.</li>
+                      <li><strong>Cybersecurity Hackathon – The Ultimate Challenge!</strong></li>
+                      <li>Solve real-world hacking simulations and security challenges.</li>
+                      <li>Identify, exploit, and defend against vulnerabilities in live environments.</li>
+                      <li>Develop cutting-edge security solutions under intense competition.</li>
+                      <li><strong>For All Skill Levels</strong></li>
+                      <li>New to cybersecurity? Learn from experts, participate, and grow!</li>
+                      <li>Already experienced? Showcase your skills and compete at the highest level!</li>
+                      <li><strong>Compete & Win Exciting Rewards</strong></li>
+                      <li>Cash prizes, certificates, and industry recognition for top performers.</li>
+                      <li>Exclusive opportunities to connect with leading cybersecurity firms.</li>
+                      <li><strong>Network with Industry Experts & Like-Minded Enthusiasts</strong></li>
+                      <li>Gain insights from top cybersecurity professionals through expert talks.</li>
+                      <li>Expand your knowledge in penetration testing, malware analysis, and digital forensics.</li>
+                      <li>Meet and collaborate with cybersecurity enthusiasts and professionals.</li>
+                    </ul>
+                  </body>
+                </html>
+              `}
+                    className="w-full h-[400px] border-none rounded-md"
+                />
               </div>
-            )}
-          </HolographicCard>
-        </div>
-      </div>
-    </section>
+            </motion.div>
+        )}
+      </section>
   );
 };
 

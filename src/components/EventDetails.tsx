@@ -1,25 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import HolographicCard from './HolographicCard';
 import GlitchText from './GlitchText';
-import { CalendarDays, MapPin, Clock, Users, Globe, Target } from 'lucide-react';
+import { CalendarDays, MapPin, Clock, Globe } from 'lucide-react';
+import logo from './logo.png';
+import './LogoShineEffect.css';
 
-interface CountdownProps {
-  targetDate: Date;
-}
-
-const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
+const Countdown = ({ targetDate }) => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const calculateTimeLeft = () => {
+    const timer = setInterval(() => {
       const difference = +targetDate - +new Date();
-      
       if (difference > 0) {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -28,161 +19,102 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
           seconds: Math.floor((difference / 1000) % 60)
         });
       }
-    };
-
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
-    
+    }, 1000);
     return () => clearInterval(timer);
   }, [targetDate]);
 
   return (
-    <div className="flex justify-center space-x-4">
-      {Object.entries(timeLeft).map(([unit, value]) => (
-        <div key={unit} className="text-center">
-          <div className="glassmorphism px-4 py-2 min-w-[80px] font-mono border border-cyber-cyan/30 text-3xl text-cyber-cyan animate-pulse-glow">
-            {value.toString().padStart(2, '0')}
-          </div>
-          <div className="text-white/60 uppercase text-xs mt-2">{unit}</div>
-        </div>
-      ))}
-    </div>
+      <div className="flex justify-center space-x-4">
+        {Object.entries(timeLeft).map(([unit, value]) => (
+            <div key={unit} className="text-center">
+              <div className="glassmorphism px-4 py-2 min-w-[80px] text-3xl text-cyber-cyan animate-pulse-glow">{value.toString().padStart(2, '0')}</div>
+              <div className="text-white/60 uppercase text-xs mt-2">{unit}</div>
+            </div>
+        ))}
+      </div>
   );
 };
 
-const EventDetails: React.FC = () => {
-  // Event details
+const EventDetails = () => {
   const eventInfo = {
-    date: "March 15-17, 2025",
-    location: "Cyber Nexus Hub, Neo Tokyo",
-    time: "48-hour hackathon",
-    participants: "Teams of 1-4 hackers",
+    date: "April 11-12, 2025",
+    location: "GLA University, Mathura",
+    time: "36-hour hackathon",
     format: "Hybrid (In-person & Virtual)",
-    theme: "Security & AI Integration",
-    targetDate: new Date('2025-03-15T00:00:00')
+    targetDate: new Date('2025-04-11T00:00:00')
   };
 
-  // Schedule items
   const scheduleItems = [
-    { day: "Day 1", time: "09:00", event: "Opening Ceremony" },
-    { day: "Day 1", time: "10:00", event: "Team Formation" },
-    { day: "Day 1", time: "12:00", event: "Hacking Begins" },
-    { day: "Day 1", time: "18:00", event: "Mentor Sessions" },
-    { day: "Day 2", time: "09:00", event: "Progress Check-in" },
-    { day: "Day 2", time: "14:00", event: "Workshop: Advanced AI Security" },
-    { day: "Day 2", time: "20:00", event: "Gaming Break" },
-    { day: "Day 3", time: "10:00", event: "Submission Deadline" },
-    { day: "Day 3", time: "13:00", event: "Presentations" },
-    { day: "Day 3", time: "16:00", event: "Awards Ceremony" }
+    { time: "20/03/25", event: "Registrations Open" },
+    { time: "24/03/25", event: "PPT Submission" },
+    { time: "05/04/25", event: "Idea Pitch (Online)" },
+    { time: "11/04/25", event: "Final Hackathon (Offline)" }
   ];
 
   return (
-    <section id="event" className="py-24 px-4 relative z-10">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <GlitchText 
-            text="EVENT_DETAILS" 
-            as="h2" 
-            className="text-4xl md:text-5xl font-cyber text-cyber-cyan mb-4" 
-          />
-          <p className="text-white/70 font-mono max-w-2xl mx-auto">
-            Access classified mission details. Prepare your team for the ultimate cyber challenge.
-          </p>
-        </div>
+      <section id="event" className="py-24 px-4 relative z-10">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <GlitchText text="EVENT DETAILS" as="h2" className="text-4xl md:text-5xl text-cyber-cyan mb-4" />
+            <p className="text-white/70 font-mono max-w-2xl mx-auto">Access classified mission details. Prepare your team for the ultimate cyber challenge.</p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Event Info Card */}
-          <HolographicCard className="p-6 md:p-8 h-full">
-            <h3 className="text-2xl font-cyber text-cyber-cyan mb-6">MISSION BRIEFING</h3>
-            
-            <div className="space-y-6">
-              <div className="flex items-center">
-                <CalendarDays className="text-cyber-cyan mr-4" size={24} />
-                <div>
-                  <div className="text-white/60 text-sm">Date</div>
-                  <div className="text-white font-mono">{eventInfo.date}</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <MapPin className="text-cyber-cyan mr-4" size={24} />
-                <div>
-                  <div className="text-white/60 text-sm">Location</div>
-                  <div className="text-white font-mono">{eventInfo.location}</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <Clock className="text-cyber-cyan mr-4" size={24} />
-                <div>
-                  <div className="text-white/60 text-sm">Duration</div>
-                  <div className="text-white font-mono">{eventInfo.time}</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <Users className="text-cyber-cyan mr-4" size={24} />
-                <div>
-                  <div className="text-white/60 text-sm">Team Size</div>
-                  <div className="text-white font-mono">{eventInfo.participants}</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <Globe className="text-cyber-cyan mr-4" size={24} />
-                <div>
-                  <div className="text-white/60 text-sm">Format</div>
-                  <div className="text-white font-mono">{eventInfo.format}</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <Target className="text-cyber-cyan mr-4" size={24} />
-                <div>
-                  <div className="text-white/60 text-sm">Theme</div>
-                  <div className="text-white font-mono">{eventInfo.theme}</div>
-                </div>
-              </div>
-            </div>
-          </HolographicCard>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <HolographicCard className="p-8 flex justify-center items-center">
+              <img src={logo} alt="Event Poster" className="w-full max-w-md" />
+            </HolographicCard>
 
-          {/* Schedule Card */}
-          <div className="flex flex-col">
-            <HolographicCard className="p-6 md:p-8 mb-8 flex-grow">
-              <h3 className="text-2xl font-cyber text-cyber-cyan mb-6">OPERATION TIMELINE</h3>
-              
-              <div className="h-[300px] overflow-y-auto pr-2 space-y-3">
+            <HolographicCard className="p-8">
+              <h3 className="text-2xl text-cyber-cyan mb-6">OPERATION TIMELINE</h3>
+              <div className="space-y-3">
                 {scheduleItems.map((item, index) => (
-                  <div 
-                    key={index} 
-                    className="flex border-b border-cyber-cyan/20 pb-2"
-                  >
-                    <div className="w-20 text-cyber-cyan font-mono text-sm">
-                      {item.time}
+                    <div key={index} className="flex border-b border-cyber-cyan/20 pb-2">
+                      <div className="w-24 text-cyber-cyan font-mono text-sm">{item.time}</div>
+                      <div className="flex-grow text-white font-mono text-sm">{item.event}</div>
                     </div>
-                    <div className="w-20 text-white/60 font-mono text-sm">
-                      {item.day}
-                    </div>
-                    <div className="flex-grow text-white font-mono text-sm">
-                      {item.event}
-                    </div>
-                  </div>
                 ))}
               </div>
             </HolographicCard>
-            
-            {/* Countdown Timer */}
-            <HolographicCard 
-              className="p-6 md:p-8 text-center" 
-              glowColor="cyber-pink"
-            >
-              <h3 className="text-xl font-cyber text-cyber-pink mb-4">COUNTDOWN TO BREACH</h3>
-              <Countdown targetDate={eventInfo.targetDate} />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+            <HolographicCard className="p-8 h-full">
+              <h3 className="text-2xl text-cyber-cyan mb-6">MISSION BRIEFING</h3>
+              <div className="space-y-6">
+                {[{ icon: CalendarDays, label: "Date", value: eventInfo.date },
+                  { icon: MapPin, label: "Location", value: eventInfo.location },
+                  { icon: Clock, label: "Duration", value: eventInfo.time },
+                  { icon: Globe, label: "Format", value: eventInfo.format }].map((info, idx) => (
+                    <div key={idx} className="flex items-center">
+                      <info.icon className="text-cyber-cyan mr-4" size={24} />
+                      <div>
+                        <div className="text-white/60 text-sm">{info.label}</div>
+                        <div className="text-white font-mono">{info.value}</div>
+                      </div>
+                    </div>
+                ))}
+              </div>
             </HolographicCard>
+
+            <div className="flex flex-col space-y-6">
+              <HolographicCard className="p-8 text-center" glowColor="cyber-pink">
+                <h3 className="text-xl text-cyber-pink mb-4">COUNTDOWN TO BREACH</h3>
+                <Countdown targetDate={eventInfo.targetDate} />
+              </HolographicCard>
+              <HolographicCard className="p-8">
+                <h3 className="text-2xl text-cyber-cyan mb-6">Have Questions? Contact Us!</h3>
+                <p className="text-white/70 font-mono">Email: support@cyberonites.com</p>
+                <div className="mt-4 text-white font-mono">
+                  <p className="text-cyber-cyan">Event Coordinators:</p>
+                  <p>Nitin Sikarwar – +91 9548514037</p>
+                  <p>Sumit Kumar – +91 9631090422</p>
+                  <p>Radha Goel – Godawari Hostel, Room No. 228</p>
+                </div>
+              </HolographicCard>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 };
 
